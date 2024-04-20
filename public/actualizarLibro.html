@@ -1,0 +1,167 @@
+
+<html>
+
+    <head>
+      <link rel="stylesheet" href="editPerfilLibro.css">
+      <link rel="stylesheet" href="headerAdmin.css">
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+      <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap" rel="stylesheet">
+    </head>
+
+
+<body onload="cargarTabla()">
+    
+  <div class="container">
+
+    <!--logo y nombre de empresa (izquirda arriba)-->
+    <div class="busqueda">
+
+      <img class="img_logo" src="img/logoNeo.png">
+
+    </div>
+    <div class="logo titulo">
+
+      <h1>El bazar de <span> las Sorpresas</span> </h1>
+
+    </div>
+
+    <div class="menuLinksAdmin" >
+
+
+      <a href="edicionPerfilLibro.html">Editor de catálogo de libros </a><br>
+    <a href="edicionPerfilAutor.html">Editor de catálogo de Autores</a><br>
+    <a href="sociosComerciales.html">Editor de catálogo de socios comerciales</a><br>
+    <a href="puntosDeEntrega.html">Editor de catálogo de puntos de entrega</a><br>          
+    <a href="editarUsuario.html">Editor de Usuarios</a><br>  
+    <a href="editReporteAdmin.html">Reportes del Mes y Puntos</a><br>
+    <a href="inicioSecion.html">Cerrar Sesión</a><br>      
+    </div>
+  </div>
+  <div class="linea_encabezado"></div>
+    <!--END HEADER-->
+
+
+    <div class="subEncabezado">
+    
+      <h1>Actualizar Libro</h1>
+      
+    </div>
+
+
+    <form class="formularioIncertar"> 
+        <input type="text" id="nombre" placeholder="Nombre" />
+        <input type="boolean" id="disponibilidad" placeholder="Disponibilidad" />
+        <input type="text" id="fechaDePublicacion" placeholder="Fecha de publicacion" />
+        <input type="text" id="formato" placeholder="Formato" />
+        <input type="text" id="genero" placeholder="Genero" />
+        <input type="number" id="precio" placeholder="Precio" />
+        <input type="text" id="resenna" placeholder="Resenna" />
+        <input type="text" id="imagen" placeholder="Imagen" />
+        <input type="text" id="ism" placeholder="Codigo ism" />
+        <input type="text" id="editorial" placeholder="Editorial" />
+        <input type="text" id="premiosEnHonor" placeholder="Premios" />
+        <input type="text" id="idAutor" placeholder="Id Autor" />
+        <input type="text" id="descuento" placeholder="descuento" />
+
+        
+
+        <button type="button"  onclick="actualizarLibro()">Actualizar Libro</button>
+        </form>
+    
+    <script>
+
+
+function actualizarLibro(){
+    var datos = {
+            nombre: document.getElementById("nombre").value,
+            disponibilidad: document.getElementById("disponibilidad").value,
+            fechaDePublicacion: document.getElementById("fechaDePublicacion").value,
+            formato: document.getElementById("formato").value,
+            genero: document.getElementById("genero").value,
+            precio: document.getElementById("precio").value,
+            resenna: document.getElementById("resenna").value,
+            imagen: document.getElementById("imagen").value,
+            ism: document.getElementById("ism").value,
+            editorial: document.getElementById("editorial").value,
+            premiosEnHonor: document.getElementById("premiosEnHonor").value,
+            idAutor: document.getElementById("idAutor").value,
+            descuento: document.getElementById("descuento").value,
+            }
+
+
+            
+
+            fetch("http://localhost:8080/libros/actualizar", {
+            method: 'POST',
+            body: JSON.stringify(datos),
+            headers: {'Content-Type': 'application/json'}
+            }).then(
+                function(response){
+                return response.json();
+                }
+            ).then(
+
+                function(json){
+
+                    alert("El libro ha sido actualizado")
+                    
+            }
+        )
+     }
+
+
+
+
+function cargarTabla() {
+        var direccion = window.location.search;
+        var variables = new URLSearchParams(direccion);
+        var id = variables.get("id");
+
+        var datos = {
+          idUsuario: id
+        }
+        
+        fetch("http://localhost:8080/libros/buscar", {
+          method: 'POST',
+          body: JSON.stringify(datos),
+          headers: {'Content-Type': 'application/json'}
+        })
+          .then(
+            function(response){
+              return response.json();
+            }
+          )
+          .then (
+            function(json) {
+
+              document.getElementById("nombre").value = json.nombre;
+              document.getElementById("disponibilidad").value = json.disponibilidad;
+              document.getElementById("fechaDePublicacion").value = json.fechaDePublicacion;
+              document.getElementById("formato").value = json.formato;
+              document.getElementById("genero").value = json.genero;
+              document.getElementById("precio").value = json.precio;
+              document.getElementById("resenna").value = json.resenna;
+              document.getElementById("imagen").value = json.imagen;
+              document.getElementById("ism").value = json.ism;
+              document.getElementById("editorial").value = json.editorial;
+              document.getElementById("premiosEnHonor").value = json.premiosEnHonor;
+              document.getElementById("idAutor").value = json.idAutor;
+              document.getElementById("descuento").value = json.descuento;
+
+
+            
+        
+            
+            }
+          ) 
+      }
+    </script>
+
+
+</body>
+
+  
+
+
+</html>
+

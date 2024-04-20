@@ -1,0 +1,267 @@
+<html>
+
+
+<head>
+    <link rel="stylesheet" href="editPerfilLibro.css">
+    <link rel="stylesheet" href="headerAdmin.css">
+    <title>Editar perfil libro</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap" rel="stylesheet">
+
+</head>
+
+
+
+<body onload="cargarTabla()">
+
+    
+    <div class="container">
+
+        <!--logo y nombre de empresa (izquirda arriba)-->
+        <div class="busqueda">
+
+            <img class="img_logo" src="img/logoNeo.png">
+
+        </div>
+        <div class="logo titulo">
+
+            <h1>El bazar de <span> las Sorpresas</span> </h1>
+        </div>
+
+        <div class="menuLinksAdmin" >
+
+
+            <a href="edicionPerfilLibro.html">Editor de catálogo de libros </a><br>
+            <a href="edicionPerfilAutor.html">Editor de catálogo de Autores</a><br>
+            <a href="sociosComerciales.html">Editor de catálogo de socios comerciales</a><br>
+            <a href="puntosDeEntrega.html">Editor de catálogo de puntos de entrega</a><br>          
+            <a href="editarUsuario.html">Editor de Usuarios</a><br>  
+            <a href="editReporteAdmin.html">Reportes del Mes y Puntos</a><br>
+            <a href="inicioSecion.html">Cerrar Sesión</a><br> 
+
+        </div>
+
+    </div>
+    <div class="linea_encabezado"></div>
+    <!--END HEADER-->
+<!--cuerpo de la pagina-->
+    
+
+<div class="subEncabezado">
+    
+    <h1>Catalogo de Autores</h1> 
+    
+</div>
+
+
+<div class="searchBar">
+    <h1>Busqueda por nombre:</h1>
+    <input type="text" id="myInput" onkeyup="tableSearch()" placeholder="Busqueda por nombre">
+</div>
+
+<div class="backgroundAbajo">
+<div class="tabla">
+    <table border="1" id="tablaLibro" >
+            <tr>
+                <td>ID autor</td>
+                <td>Nombre</td>
+                <td>Libros publicados</td>
+                <td>Premios ganados</td>
+                <td>Pais nacimiento</td>
+                <td>Fecha nacimiento</td>
+                <td>Genero del autor</td>
+                <td>Fecha de defunción</td>
+                <td>Imagen</td>
+                <td>Actualizar autor</td>
+                
+            </tr>
+        </table>
+        <br/>
+
+        <div class="subEncabezado">
+            <h1>Insertar Autores</h1>
+        </div>
+
+
+        <form class="formularioIncertar"> 
+        <input type="text" id="nombre" placeholder="Nombre" />
+        <input type="text" id="librosPublicados" placeholder="librosPublicados" />
+        <input type="text" id="premiosGanados" placeholder="premiosGanados" />
+        <input type="text" id="paisNacimiento" placeholder="paisNacimiento" />
+        <input type="text" id="fechaNacimiento" placeholder="fechaNacimiento" />
+        <input type="text" id="generoDelAutor" placeholder="generoDelAutor" />
+        <input type="text" id="fechaDeDefuncion" placeholder="fechaDeDefuncion" />
+        <input type="text" id="imagen" placeholder="imagen" />
+        
+        <button type="button"  onclick="insertarAutor()">Insertar Autor</button>
+        
+        </form>
+    </div>
+</div>
+
+
+
+    <script>
+
+
+
+
+
+    function tableSearch(){
+        let input, filter, table, tr, td, txtValue;
+        console.log("This is working")
+        //inicializando variables
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("tablaLibro");
+        tr = table.getElementsByTagName("tr")
+
+        for(let i = 0; i<tr.length; i++){
+            td=tr[i].getElementsByTagName("td")[1];
+            if(td){
+                txtValue= td.textContent || td.innerText;
+                if(txtValue.toUpperCase().indexOf(filter) > -1){
+                    tr[i].style.display = "";
+                }
+                else{
+                    tr[i].style.display = "none"
+                }
+            }
+
+        }
+    }
+
+
+function cargarTabla() {
+            fetch("http://localhost:8080/autores/")
+            .then(
+                function(response){
+                return response.json();
+                }
+            )
+            .then (
+                function(json) {
+                for(var cont = 0; json.length > cont; cont++) {
+                    
+                    var linea = "<tr><td>"+json[cont]._id+"</td><td>"+json[cont].nombre+"</td><td>"+json[cont].librosPublicados+"</td><td>"+json[cont].premiosGanados+"</td><td>"+json[cont].paisNacimiento+"</td><td>"+json[cont].fechaNacimiento+"</td><td>"+json[cont].generoDelAutor+"</td><td>"+json[cont].fechaDeDefuncion+"</td><td>"+json[cont].imagen+"</td><td><a href='actualizarAutor.html?id="+json[cont]._id+"'>Actualizar</a></td></tr>";
+                   
+                    document.getElementById("tablaLibro").insertAdjacentHTML("beforeend", linea);
+                }
+                }
+            ) 
+            }
+        
+        function insertarAutor() {
+
+
+        
+
+            var datos = {
+            nombre: document.getElementById("nombre").value,
+            librosPublicados: document.getElementById("librosPublicados").value,
+            premiosGanados: document.getElementById("premiosGanados").value,
+            paisNacimiento: document.getElementById("paisNacimiento").value,
+            fechaNacimiento: document.getElementById("fechaNacimiento").value,
+            generoDelAutor: document.getElementById("generoDelAutor").value,
+            fechaDeDefuncion: document.getElementById("fechaDeDefuncion").value,
+            imagen: document.getElementById("imagen").value
+
+            
+            }
+            
+
+
+            console.log(datos)
+
+            fetch("http://localhost:8080/autores/insertar", {
+            method: 'POST',
+            body: JSON.stringify(datos),
+            headers: {'Content-Type': 'application/json'}
+            }).then(
+                function(response){
+                return response.json();
+                }
+            ).then(
+
+                function(json){
+
+                    console.log("llegamos");
+
+                var linea = "<tr><td>"+json._id+"</td><td>"+json.nombre+"</td><td>"+json.librosPublicados+"</td><td>"+json.premiosGanados+"</td><td>"+json.paisNacimiento+"</td><td>"+json.fechaNacimiento+"</td><td>"+json.generoDelAutor+"</td><td>"+json.fechaDeDefuncion+"</td><td>"+json.imagen+"</td><td><a href='actualizarAutor.html?id="+json._id+"'>Actualizar</a></td></tr>";
+               
+                console.log(linea);
+
+                document.getElementById("tablaLibro").insertAdjacentHTML("beforeend", linea);
+            }
+            )
+        }
+
+
+            //validaciones
+        var precio = document.getElementById("precio")
+        var tituloLibro = document.getElementById("titulo")
+        var nombreAutor = document.getElementById("autor")
+        var numeroISM = document.getElementById("ism")
+        var editorial = document.getElementById("editorial")
+        var reseña = document.getElementById("reseña")
+        var fecha = document.getElementById("fecha")
+
+        function validar(){
+
+            
+                if( tituloLibro.value == ""){
+                    alert("Error: Ingrese un titulo para el libro")
+                    
+                    return false
+                } 
+
+                if(nombreAutor.value =="" || nombreAutor.value.includes("!") || nombreAutor.value.includes("#") || nombreAutor.value.includes("$") || nombreAutor.value.includes("%") || nombreAutor.value.includes("&") || nombreAutor.value.includes("/") || nombreAutor.value.includes("(") || nombreAutor.value.includes(")")|| nombreAutor.value.includes("=")|| nombreAutor.value.includes("?")|| nombreAutor.value.includes("¿")){
+                    alert("Error: Ingrese un nombre de autor válido, recuerde que no puede usar (!,#,$,%,%,&,/,(,),=,?,¿) para el nombre")
+                
+                    return false
+                }
+
+            if(numeroISM.value == "" || numeroISM.value < 0 ){
+            alert("Error: Ingrese un numero de ISM valido, recuerde que este no puede ser un número negativo")
+
+            return false} 
+
+            if( editorial.value == ""){
+                alert("Error: Ingrese un nombre de editorial")
+                return false
+            } 
+
+            if( reseña.value == ""){
+                alert("Error: Ingrese una reseña para el libro")
+
+                return false
+            } 
+            if( fecha.value == ""){
+                alert("Error: Ingrese una fecha de publicación")
+                return false
+            }
+            
+            if(precio.value == "" || precio.value < 0 ){
+            alert(" Error: Ingrese un precio valido para poder enviar el formulario")
+            return false} 
+            
+            alert("Los datos ingresados se han guardado exitosamente")
+            
+
+
+        }
+        function buscar(){
+    
+            var search = { busqueda : document.getElementById("resultadoBusqueda").value}
+            console.log(search)
+
+
+            document.getElementById("content").innerHTML='<object type="type/html" data="home.html" ></object>';
+            
+        }
+    </script>
+</body>
+
+
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar sesion</title>
+    <link rel="stylesheet" href="iniciar_sesion_style.css">
+    <link rel="stylesheet" href="header.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+    <body class="body">
+        <div class="container">
+
+            <!--logo y nombre de empresa (izquirda arriba)-->
+            <div class="busqueda">
+
+                <img class="img_logo" src="img/logoNeo.png">
+
+            </div>
+            <div class="logo titulo">
+
+                <h1>El bazar de <span> las Sorpresas</span> </h1>
+            </div>
+
+
+
+            <!--busqueda, carrito, menu (derecha arriba)-->
+            <div class="links">
+                <p>
+                    <a href="home.html">Bienvenido al bazar de las sorpresas</a>
+                    <i class="arrow right"></i>
+                    <a href="registro.html">Registrarse</a>
+                    <i class="arrow right"></i>
+                    <a href="inicioSecion.html">Iniciar sesión</a>
+                </p>
+
+                <div>
+                    <!--BUSQUEDA-->
+
+
+                    <input class="barraBusqueda" type="text" id="resultadoBusqueda"
+                        placeholder="Digite lo que desea buscar">
+                    <div>
+                        <button class="button" id="busquedaAutor" type="button"
+                            onclick="location.href = 'resultadoDeBusquedaAutor.html?nombreAutor='+getElementById('resultadoBusqueda').value">Buscar
+                            por autor</button>
+
+                        <button class="button" id="busqueda" type="button"
+                            onclick="location.href = 'resultadoDeBusqueda.html?nombre='+getElementById('resultadoBusqueda').value">Buscar
+                            por nombre</button>
+
+                        <button class="button" id="busquedaGenero" type="button"
+                            onclick="location.href = 'resultadoDeBusquedaGenero.html?genero='+getElementById('resultadoBusqueda').value">Buscar
+                            por genero</button>
+
+                        <a href="carritoCompras.html">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-shopping-cart " width="28" height="28" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                <circle cx="6" cy="19" r="2" />
+                                <circle cx="17" cy="19" r="2" />
+                                <path d="M17 17h-11v-14h-2" />
+                                <path d="M6 5l14 1l-1 7h-13" />
+                              </svg>
+                        </a>
+
+                        <a href="editarPerfil.html">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="28" height="28" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                <circle cx="12" cy="7" r="4" />
+                                <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                              </svg>
+                            
+                        </a>
+
+                    </div>
+
+
+
+
+
+
+
+                </div>
+
+                <div class="menu">
+                    <p>
+                        <a href="catalogolibros.html">Catálogo libros</a>
+                        <a href="landingPageProducto.html">Nuestra empresa</a>
+                        <a href="landingPageEquipo.html">Neon Team</a>
+
+                    </p>
+                </div>
+
+
+            </div>
+
+
+        </div>
+        <div class="linea_encabezado"></div>
+
+        <!--FIN DE ENCABEZADO-->
+
+
+
+        <h2 id="tituloInicioSesion">Iniciar sesion</h2>
+        <div class="inicioSesion">
+            <div class="datosInicioSesion">
+                <h2>CLIENTES REGISTRADOS</h2>
+                <p>Si ya creó una cuenta, inicie sesión digitando su dirección de correo electrónico y contraseña.</p>
+
+                <form name="login">
+                    <table width="100" border="0">
+                        <tr>
+
+                            <th scope="row">
+                                <h2>Usuario</h2>
+                                <input id="correoElectronico" type="text">
+                            </th>
+
+
+                        </tr>
+                        <tr>
+                            <th height="20" scope="row">
+                                <h2>Clave</h2>
+                                <input id="contrasena" type="password">
+                                <button type="button" onclick="verificarUsuario()">Entrar</button>
+                                <button type="button" onclick="verificarUsuarioAdministrador()">Entrar como
+                                    Administrador</button>
+                           
+                        </tr>
+                    </table>
+                </form>
+            </div>
+
+            <div class="nuevoCliente">
+
+                <a href="registro.html"><button onclick="document.location='registrarse.html'">CREAR CUENTA</button></a>
+            </div>
+
+
+        </div>
+
+        <script>
+
+            function verificarUsuario() {
+                var validRegexEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+
+                var correoElectronico = document.getElementById("correoElectronico").value;
+                var contrasenna = document.getElementById("contrasena").value
+
+                fetch("http://localhost:8080/datosUsuario", {
+                })
+                    .then(
+                        function (response) {
+                            return response.json();
+                        }).then(
+                            function (data) {
+                                var correoVerificando = data[0].correoElectronico
+                                var contrasenaVerificando = data[0].contrasenna
+
+                                console.log(correoVerificando)
+                                console.log(contrasenaVerificando)
+
+                                if (correoVerificando == correoElectronico && contrasenaVerificando == contrasenna) {
+                                    alert('¡Sesion iniciada con exito!')
+                                    window.location.href = "home.html"
+                                } else {
+                                    alert('Datos invalidos. Por favor verifique la informacion')
+                                    return false
+                                }
+                            }
+                        )
+            }
+
+            function verificarUsuarioAdministrador() {
+                var validRegexEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+
+                var correoElectronico = document.getElementById("correoElectronico").value;
+                var contrasenna = document.getElementById("contrasena").value
+
+                fetch("http://localhost:8080/datosUsuario", {
+                })
+                    .then(
+                        function (response) {
+                            return response.json();
+                        }).then(
+                            function (data) {
+                                var correoVerificando = data[0].correoElectronico
+                                var contrasenaVerificando = data[0].contrasenna
+
+                                console.log(correoVerificando)
+                                console.log(contrasenaVerificando)
+
+                                if (correoVerificando == correoElectronico && contrasenaVerificando == contrasenna) {
+                                    alert('¡Sesion iniciada con exito!')
+                                    window.location.href = "editReporteAdmin.html"
+                                } else {
+                                    alert('Datos invalidos. Por favor verifique la informacion')
+                                    return false
+                                }
+                            }
+                        )
+            }
+
+        </script>
+
+
+
+    </body>
+
+</html>

@@ -1,0 +1,201 @@
+<html>
+
+
+    <head>
+        <link rel="stylesheet" href="perfillibro.css">  
+        <link rel="stylesheet" href="header.css"> 
+        <title>Perfil del libro</title>   
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap" rel="stylesheet">
+    </head>
+
+
+    <body onload="cargarTabla()" >
+        
+        <body class="body">
+            <div class="container">
+    
+                <!--logo y nombre de empresa (izquirda arriba)-->
+                <div class="busqueda">
+        
+                    <img class="img_logo" src="img/logoNeo.png">
+        
+                </div>
+                <div class="logo titulo">
+        
+                    <h1>El bazar de <span> las Sorpresas</span> </h1>
+                </div>
+        
+        
+        
+                <!--busqueda, carrito, menu (derecha arriba)-->
+                <div class="links">
+                    <p>
+                        <a href="home.html">Bienvenido al bazar de las sorpresas</a>
+                        <i class="arrow right"></i>
+                        <a href="registro.html">Registrarse</a>
+                        <i class="arrow right"></i>
+                        <a href="inicioSecion.html">Iniciar sesión</a>
+                    </p>
+                    
+                    <div >
+                        
+        
+        
+                        <!--BUSQUEDA-->
+        
+                        
+                        <input class="barraBusqueda" type="text" id="resultadoBusqueda" placeholder="Digite lo que desea buscar.....................">  
+                        <div>
+                            <button class="button" id="busquedaAutor" type="button" onclick="location.href = 'resultadoDeBusquedaAutor.html?nombreAutor='+getElementById('resultadoBusqueda').value">Buscar por autor</button>
+        
+                            <button class="button" id="busqueda" type="button" onclick="location.href = 'resultadoDeBusqueda.html?nombre='+getElementById('resultadoBusqueda').value">Buscar por nombre</button>
+        
+                            <button class="button" id="busquedaGenero" type="button" onclick="location.href = 'resultadoDeBusquedaGenero.html?genero='+getElementById('resultadoBusqueda').value">Buscar por genero</button>
+                        
+                            <a href="carritoCompras.html">
+                                <svg class="iconos" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-shopping-cart-plus carrito" width="35" height="35" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <circle cx="6" cy="19" r="2" />
+                                    <circle cx="17" cy="19" r="2" />
+                                    <path d="M17 17h-11v-14h-2" />
+                                    <path d="M6 5l6.005 .429m7.138 6.573l-.143 .998h-13" />
+                                    <path d="M15 6h6m-3 -3v6" />
+                                </svg>
+                            </a>
+            
+                            <a href="editarPerfil.html">
+                                <svg class="iconos" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="35" height="35" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                    <circle cx="12" cy="7" r="4" />
+                                    <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                                  </svg>
+                            </a>
+                        
+                        </div>
+                        
+        
+        
+        
+        
+                        
+        
+                    </div>
+        
+                    <div class="menu">
+                        <p>
+                            <a href="catalogolibros.html">Catálogo libros</a>
+                            <a href="landingPageProducto.html">Nuestra empresa</a>
+                            <a href="landingPageEquipo.html">Neon Team</a>
+                            
+                        </p>
+                    </div>
+        
+        
+                </div>
+        
+        
+            </div>
+            <div class="linea_encabezado"></div>
+        <!--END HEADER-->
+        
+    <!--cuerpo de la pagina-->
+        
+        <div class="container2">
+
+            <div class="portada">
+
+                <!--Imagen de la PORTADA del libro-->
+
+                <div id="imagenPortada">  </div>
+
+            <div class="container3">
+                
+                <div class="box" id="cantidadLibros">
+                    <select name="contador"  >
+                        <option value="">Cantidad</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                        <option value="8">8</option>
+                        <option value="9">9</option>
+                        <option value="10">10</option>
+                    </select>
+                    <button type="submit" class="third">Añadir al carrito</button>
+                </div>
+            </div>
+        </div>
+
+        <!--Información del PERFIL libro-->
+        <div class="info_libro"> <div id="infoLibro"></div>
+
+        <div class>
+            <p>Calificar libro</p>
+            <form>
+                <p class="clasificacion">
+                    <input id="radio1" type="radio" name="estrellas" value="5"><!--
+                    --><label for="radio1">★</label><!--
+                    --><input id="radio2" type="radio" name="estrellas" value="4"><!--
+                    --><label for="radio2">★</label><!--
+                    --><input id="radio3" type="radio" name="estrellas" value="3"><!--
+                    --><label for="radio3">★</label><!--
+                    --><input id="radio4" type="radio" name="estrellas" value="2"><!--
+                    --><label for="radio4">★</label><!--
+                    --><input id="radio5" type="radio" name="estrellas" value="1"><!--
+                    --><label for="radio5">★</label>
+                  </p>
+            </form>
+        </div>
+    </div>
+
+        <script>
+
+    function cargarTabla() {
+            var direccion = window.location.search;
+            var variables = new URLSearchParams(direccion);
+            var id = variables.get("id");
+
+            var datos = {
+            idUsuario: id
+            }
+            
+            fetch("http://localhost:8080/libros/buscar", {
+            method: 'POST',
+            body: JSON.stringify(datos),
+            headers: {'Content-Type': 'application/json'}
+            })
+            .then(
+                function(response){
+                return response.json();
+                }
+            ).then(
+                function (data) {
+                   
+                    var portadaLibro = "<img class=img_libro src='img/"+data.imagen+"'>";
+
+                    var informacionLibro = "<h1 id='titulo'>"+data.nombre+"</h1><h3>Autor:<a href='perfilAutor.html?id="+data.idAutor+"'>"+data.nombreAutor+"</a></h3><h3>Código ISM: <span id='ism'>"+data.ism+"</span></h3><h3>Editorial: <span id='editorial'>"+data.editorial+"</span></h3><h3>Reseña:</h3><p id='reseña'>"+data.resenna+"</p></div><div><h3>Premios en su honor:</h3><p id='premios'>"+data.premiosEnHonor+"</p></div><h3>Fecha de publicación:</h3> <p><span id='fechaPublicacion'> "+data.fechaDePublicacion+"</span></p> <h3>Precio: </h3> <p><span id='precio'> ₡"+data.precio+"</span></p> <h3> Disponibilidad: </h3><p><span id='disponibilidad'>"+data.disponibilidad+"</span></p><h3>Formato: </h3><p> <span id='formato'>"+data.formato+"</span></p><h3>Genero del Autor:</h3> <p><span id='genero'>"+data.genero+"</span></p><h3>Descuento:</h3> <p><span id='descuento'>"+data.descuento+"%</span></p>";
+
+                    document.getElementById("imagenPortada").insertAdjacentHTML("beforeend", portadaLibro);
+                    document.getElementById("infoLibro").insertAdjacentHTML("beforeend", informacionLibro);
+
+                    
+                }
+            );
+        }
+        function buscar(){
+    
+            var search = { busqueda : document.getElementById("resultadoBusqueda").value}
+            console.log(search)
+
+
+            document.getElementById("content").innerHTML='<object type="type/html" data="home.html" ></object>';
+        }
+        </script>
+
+
+    </body>
+
+</html>

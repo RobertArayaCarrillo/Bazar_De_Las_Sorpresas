@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="editPerfilLibro.css">
+    <link rel="stylesheet" href="headerAdmin.css">
+</head>
+
+<body onload="cargarTabla()">
+
+    <div class="container">
+
+        <!--logo y nombre de empresa (izquirda arriba)-->
+        <div class="busqueda">
+
+            <img class="img_logo" src="img/logoNeo.png">
+
+        </div>
+        <div class="logo titulo">
+
+            <h1>El bazar de <span> las Sorpresas</span> </h1>
+        </div>
+
+        <div class="menuLinksAdmin" >
+
+
+            <a href="edicionPerfilLibro.html">Editor de catálogo de libros </a><br>
+            <a href="edicionPerfilAutor.html">Editor de catálogo de Autores</a><br>
+            <a href="sociosComerciales.html">Editor de catálogo de socios comerciales</a><br>
+            <a href="puntosDeEntrega.html">Editor de catálogo de puntos de entrega</a><br>          
+            <a href="editarUsuario.html">Editor de Usuarios</a><br>  
+            <a href="editReporteAdmin.html">Reportes del Mes y Puntos</a><br>
+            <a href="inicioSecion.html">Cerrar Sesión</a><br> 
+
+        </div>
+
+    </div>
+    <div class="linea_encabezado"></div>
+    <!--END HEADER-->
+<!--cuerpo de la pagina-->
+    
+
+<div class="subEncabezado">
+    
+    <h1>Catalogo de socios comerciales</h1>
+    
+</div>
+
+
+<div class="searchBar">
+    <h1>Busqueda por nombre:</h1>
+    <input type="text" id="myInput" onkeyup="tableSearch()" placeholder="Busqueda por nombre">
+</div>
+
+<div class="backgroundAbajo">
+<div class="tabla">
+    <table style = "margin: 0 auto;" border="1" id="tablaSocios" >
+            <tr>
+                <td>Nombre</td>
+                <td>dirección</td>
+                <td>teléfono</td>
+                <td>correo Electrónico</td>
+                <td>inicio Relaciones</td>
+                <td>Actualizar socio comercial</td>
+                
+            </tr>
+        </table>
+        <br/>
+
+        <div class="subEncabezado">
+            <h1>Insertar socio comercial</h1>
+        </div>
+
+
+        <form class="formularioIncertar"> 
+        <input type="text" id="nombre" placeholder="Nombre" />
+        <input type="text" id="direccion" placeholder="direccion" />
+        <input type="text" id="telefono" placeholder="telefono" />
+        <input type="text" id="correoElectronico" placeholder="correoElectronico" />
+        <input type="text" id="inicioRelaciones" placeholder="inicioRelaciones" />
+        
+        <button type="button"  onclick="insertarSocioComercial()">Insertar Socio Comercial</button>
+        </form>
+    </div>
+</div>
+
+
+
+    <script>
+
+
+
+
+
+    function tableSearch(){
+        let input, filter, table, tr, td, txtValue;
+        console.log("This is working")
+        //inicializando variables
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        table = document.getElementById("tablaSocios");
+        tr = table.getElementsByTagName("tr")
+
+        for(let i = 0; i<tr.length; i++){
+            td=tr[i].getElementsByTagName("td")[0];
+            if(td){
+                txtValue= td.textContent || td.innerText;
+                if(txtValue.toUpperCase().indexOf(filter) > -1){
+                    tr[i].style.display = "";
+                }
+                else{
+                    tr[i].style.display = "none"
+                }
+            }
+
+        }
+    }
+
+
+function cargarTabla() {
+            fetch("http://localhost:8080/socioComercial/")
+            .then(
+                function(response){
+                return response.json();
+                }
+            )
+            .then (
+                function(json) {
+                for(var cont = 0; json.length > cont; cont++) {
+                    
+                    var linea = "<tr><td>"+json[cont].nombre+"</td><td>"+json[cont].direccion+"</td><td>"+json[cont].telefono+"</td><td>"+json[cont].correoElectronico+"</td><td>"+json[cont].inicioRelaciones+"<td><a href='actualizarSocioComercial.html?id="+json[cont]._id+"'>Actualizar</a></td></tr>";
+                   
+                    document.getElementById("tablaSocios").insertAdjacentHTML("beforeend", linea);
+                }
+                }
+            ) 
+            }
+        
+        function insertarSocioComercial() {
+
+
+        
+
+            var datos = {
+            nombre: document.getElementById("nombre").value,
+            direccion: document.getElementById("direccion").value,
+            telefono: document.getElementById("telefono").value,
+            correoElectronico: document.getElementById("correoElectronico").value,
+            inicioRelaciones: document.getElementById("inicioRelaciones").value
+          
+            }
+            
+
+            console.log(datos)
+
+            fetch("http://localhost:8080/socioComercial/insertar", {
+            method: 'POST',
+            body: JSON.stringify(datos),
+            headers: {'Content-Type': 'application/json'}
+            }).then(
+                function(response){
+                return response.json();
+                }
+            ).then(
+
+                function(json){
+
+                    console.log("llegamos");
+
+                var linea = "<tr><td>"+json.nombre+"</td><td>"+json.direccion+"</td><td>"+json.telefono+"</td><td>"+json.correoElectronico+"</td><td>"+json.inicioRelaciones+"<td><a href='actualizarSocioComercial.html?id="+json._id+"'>Actualizar</a></td></tr>";
+               
+                console.log(linea);
+
+                document.getElementById("tablaSocios").insertAdjacentHTML("beforeend", linea);
+            }
+            )
+        }
+
+
+            //validaciones
+        var precio = document.getElementById("precio")
+        var tituloLibro = document.getElementById("titulo")
+        var nombreAutor = document.getElementById("autor")
+        var numeroISM = document.getElementById("ism")
+        var editorial = document.getElementById("editorial")
+        var reseña = document.getElementById("reseña")
+        var fecha = document.getElementById("fecha")
+
+        function validar(){
+
+            
+                if( tituloLibro.value == ""){
+                    alert("Error: Ingrese un titulo para el libro")
+                    
+                    return false
+                } 
+
+                if(nombreAutor.value =="" || nombreAutor.value.includes("!") || nombreAutor.value.includes("#") || nombreAutor.value.includes("$") || nombreAutor.value.includes("%") || nombreAutor.value.includes("&") || nombreAutor.value.includes("/") || nombreAutor.value.includes("(") || nombreAutor.value.includes(")")|| nombreAutor.value.includes("=")|| nombreAutor.value.includes("?")|| nombreAutor.value.includes("¿")){
+                    alert("Error: Ingrese un nombre de autor válido, recuerde que no puede usar (!,#,$,%,%,&,/,(,),=,?,¿) para el nombre")
+                
+                    return false
+                }
+
+            if(numeroISM.value == "" || numeroISM.value < 0 ){
+            alert("Error: Ingrese un numero de ISM valido, recuerde que este no puede ser un número negativo")
+
+            return false} 
+
+            if( editorial.value == ""){
+                alert("Error: Ingrese un nombre de editorial")
+                return false
+            } 
+
+            if( reseña.value == ""){
+                alert("Error: Ingrese una reseña para el libro")
+
+                return false
+            } 
+            if( fecha.value == ""){
+                alert("Error: Ingrese una fecha de publicación")
+                return false
+            }
+            
+            if(precio.value == "" || precio.value < 0 ){
+            alert(" Error: Ingrese un precio valido para poder enviar el formulario")
+            return false} 
+            
+            alert("Los datos ingresados se han guardado exitosamente")
+            
+
+
+        }
+        function buscar(){
+    
+            var search = { busqueda : document.getElementById("resultadoBusqueda").value}
+            console.log(search)
+
+
+            document.getElementById("content").innerHTML='<object type="type/html" data="home.html" ></object>';
+        }
+    </script>
+</body>
+
+
+</html>

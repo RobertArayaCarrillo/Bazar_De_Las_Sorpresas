@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="editPerfilLibro.css">
+    <link rel="stylesheet" href="headerAdmin.css">
+    <title>Editar Usuario</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap" rel="stylesheet">
+</head>
+
+<body onload="cargarTabla()">
+
+    <div class="container">
+
+        <!--logo y nombre de empresa (izquirda arriba)-->
+        <div class="busqueda">
+
+            <img class="img_logo" src="img/logoNeo.png">
+
+        </div>
+        <div class="logo titulo">
+
+            <h1>El bazar de <span> las Sorpresas</span> </h1>
+        </div>
+
+        <div class="menuLinksAdmin" >
+
+
+            <a href="edicionPerfilLibro.html">Editor de catálogo de libros </a><br>
+    <a href="edicionPerfilAutor.html">Editor de catálogo de Autores</a><br>
+    <a href="sociosComerciales.html">Editor de catálogo de socios comerciales</a><br>
+    <a href="puntosDeEntrega.html">Editor de catálogo de puntos de entrega</a><br>          
+    <a href="editarUsuario.html">Editor de Usuarios</a><br>  
+    <a href="editReporteAdmin.html">Reportes del Mes y Puntos</a><br>
+    <a href="inicioSecion.html">Cerrar Sesión</a><br> 
+
+
+        </div>
+
+    </div>
+    <div class="linea_encabezado"></div>
+
+        <!--End Header-->
+
+
+
+    <div class="subEncabezado">
+
+        <h1>Edición de Usuarios</h1>
+
+    </div>
+
+
+    <div class="searchBar">
+        <h1>Busqueda por nombre:</h1>
+        <input type="text" id="myInput" onkeyup="tableSearch()" placeholder="Busqueda por nombre">
+    </div>
+
+    <div class="backgroundAbajo">
+        <div class="tabla">
+            <table style = "margin: 0 auto;"border="1" id="tablaDatosUsuario">
+                <tr>
+                    <td>Nombre</td>
+                    <td>Apellido</td>
+                    <td>Fecha de Nacimiento</td>
+                    <td>Correo Electronico</td>
+                    <td>Contrasenna</td>
+                    <td>Puntaje</td>
+                    <td>Actualizar Usuario</td>
+
+                </tr>
+            </table>
+            <br />
+
+            <div class="subEncabezado">
+                <h1>Insertar Usuario</h1>
+            </div>
+
+
+            <form class="formularioIncertar">
+                <input type="text" id="nombre" placeholder="Nombre" />
+                <input type="text" id="apellido" placeholder="apellido" />
+                <input type="text" id="fechaDeNacimiento" placeholder="fecha De Nacimiento" />
+                <input type="text" id="correoElectronico" placeholder="correoElectronico" />
+                <input type="text" id="contrasenna" placeholder="contrasenna" />
+                <input type="number" id="puntaje" placeholder="puntaje" />
+
+
+                <button type="button" onclick="insertarDatosUsuario()">Inserta Usuario</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+
+
+
+
+
+        function tableSearch() {
+            let input, filter, table, tr, td, txtValue;
+            console.log("This is working")
+            //inicializando variables
+            input = document.getElementById("myInput");
+            filter = input.value.toUpperCase();
+            table = document.getElementById("tablaDatosUsuario");
+            tr = table.getElementsByTagName("tr")
+
+            for (let i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    }
+                    else {
+                        tr[i].style.display = "none"
+                    }
+                }
+
+            }
+        }
+
+
+        function cargarTabla() {
+            fetch("http://localhost:8080/datosUsuario/")
+                .then(
+                    function (response) {
+                        return response.json();
+                    }
+                )
+                .then(
+                    function (json) {
+                        for (var cont = 0; json.length > cont; cont++) {
+
+                            var linea = "<tr><td>" + json[cont].nombre + "</td><td>" + json[cont].apellido + "</td><td>" + json[cont].fechaDeNacimiento + "</td><td>" + json[cont].correoElectronico + "</td><td>" + json[cont].contrasenna + "</td><td>" + json[cont].puntaje + "</td><td><a href='actualizarEditarUsuario.html?id=" + json[cont]._id + "'>Actualizar</a></td></tr>";
+
+                            document.getElementById("tablaDatosUsuario").insertAdjacentHTML("beforeend", linea);
+                        }
+                    }
+                )
+        }
+
+        function insertarDatosUsuario() {
+
+
+
+
+            var datos = {
+                nombre: document.getElementById("nombre").value,
+                apellido: document.getElementById("apellido").value,
+                fechaDeNacimiento: document.getElementById("fechaDeNacimiento").value,
+                correoElectronico: document.getElementById("correoElectronico").value,
+                contrasenna: document.getElementById("contrasenna").value,
+                puntaje: document.getElementById("puntaje").value,
+                
+            }
+
+
+
+            console.log(datos)
+
+            fetch("http://localhost:8080/datosUsuario/insertarDatosUsuario", {
+                method: 'POST',
+                body: JSON.stringify(datos),
+                headers: { 'Content-Type': 'application/json' }
+            }).then(
+                function (response) {
+                    return response.json();
+                }
+            ).then(
+
+                function (json) {
+
+                    console.log("llegamos");
+
+                    var linea = "<tr><td>" + json.nombre + "</td><td>" + json.apellido + "</td><td>" + json.fechaDeNacimiento + "</td><td>" + json.correoElectronico + "</td><td>" + json.contrasenna + "</td><td>" + json.puntaje + "</td><td><a href='actualizarEditarUsuario.html?id=" + json._id + "'>Actualizar</a></td></tr>";
+
+                    console.log(linea);
+
+                    document.getElementById("tablaDatosUsuario").insertAdjacentHTML("beforeend", linea);
+                }
+            )
+        }
+
+
+        //validaciones
+        var nombre = document.getElementById("nombre")
+        var apellido = document.getElementById("apellido")
+        var fechaDeNacimiento = document.getElementById("fechaDeNacimiento")
+        var correoElectronico = document.getElementById("correoElectronico")
+        var contrasenna = document.getElementById("contrasenna")
+        var puntaje = document.getElementById("puntaje")
+        
+
+        function validar() {
+
+
+            if (nombre.value == "") {
+                alert("Error: Ingrese un titulo para el libro")
+
+                return false
+            }
+
+
+            if (fechaDeNacimiento.value == "" || fechaDeNacimiento.value < 0) {
+                alert("Error: Ingrese fecha de nacimiento ")
+
+                return false
+            }
+
+            if (correoElectronico.value == "") {
+                alert("Error: Ingrese un correo")
+                return false
+            }
+
+            if (contrasenna.value == "") {
+                alert("Error: Ingrese una contraseña")
+
+                return false
+            }
+          
+
+            if (puntaje.value == "" || puntaje.value < 0) {
+                alert(" Error: Ingrese un precio valido para poder enviar el formulario")
+                return false
+            }
+
+            alert("Los datos ingresados se han guardado exitosamente")
+
+
+
+        }
+        function buscar(){
+    
+            var search = { busqueda : document.getElementById("resultadoBusqueda").value}
+            console.log(search)
+
+
+            document.getElementById("content").innerHTML='<object type="type/html" data="home.html" ></object>';
+        }
+    </script>
+</body>
+
+</html>

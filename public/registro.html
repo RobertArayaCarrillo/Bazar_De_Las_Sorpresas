@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrarse</title>
+    <link rel="stylesheet" href="registrarse_style.css">
+    <link rel="stylesheet" href="header.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap" rel="stylesheet">
+</head>
+<body>
+    <body class="body">
+        <div class="container">
+
+            <!--logo y nombre de empresa (izquirda arriba)-->
+            <div class="busqueda">
+    
+                <img class="img_logo" src="img/logoNeo.png">
+    
+            </div>
+            <div class="logo titulo">
+    
+                <h1>El bazar de <span> las Sorpresas</span> </h1>
+            </div>
+    
+    
+    
+            <!--busqueda, carrito, menu (derecha arriba)-->
+            <div class="links">
+                <p>
+                    <a href="home.html">Bienvenido al bazar de las sorpresas</a>
+                    <i class="arrow right"></i>
+                    <a href="registro.html">Registrarse</a>
+                    <i class="arrow right"></i>
+                    <a href="inicioSecion.html">Iniciar sesión</a>
+                </p>
+                
+                <div >
+                    
+    
+    
+                    <!--BUSQUEDA-->
+    
+                    
+                    <input class="barraBusqueda" type="text" id="resultadoBusqueda" placeholder="Digite lo que desea buscar.....................">  
+                    <div>
+                        <button class="button" id="busquedaAutor" type="button" onclick="location.href = 'resultadoDeBusquedaAutor.html?nombreAutor='+getElementById('resultadoBusqueda').value">Buscar por autor</button>
+    
+                        <button class="button" id="busqueda" type="button" onclick="location.href = 'resultadoDeBusqueda.html?nombre='+getElementById('resultadoBusqueda').value">Buscar por nombre</button>
+    
+                        <button class="button" id="busquedaGenero" type="button" onclick="location.href = 'resultadoDeBusquedaGenero.html?genero='+getElementById('resultadoBusqueda').value">Buscar por genero</button>
+                    
+                        <a href="carritoCompras.html">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-shopping-cart " width="28" height="28" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                <circle cx="6" cy="19" r="2" />
+                                <circle cx="17" cy="19" r="2" />
+                                <path d="M17 17h-11v-14h-2" />
+                                <path d="M6 5l14 1l-1 7h-13" />
+                              </svg>
+                        </a>
+        
+                        <a href="editarPerfil.html">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="28" height="28" viewBox="0 0 24 24" stroke-width="1.5" stroke="#000000" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                <circle cx="12" cy="7" r="4" />
+                                <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                              </svg>
+                        </a>
+                    
+                    </div>
+                    
+    
+    
+    
+    
+                    
+    
+                </div>
+    
+                <div class="menu">
+                    <p>
+                        <a href="catalogolibros.html">Catálogo libros</a>
+                        <a href="landingPageProducto.html">Nuestra empresa</a>
+                        <a href="landingPageEquipo.html">Neon Team</a>
+                        
+                    </p>
+                </div>
+    
+    
+            </div>
+    
+    
+        </div>
+        <div class="linea_encabezado"></div>
+    <!--FIN DE ENCABEZADO-->
+
+    <h2 id="crearCuenta">Crear una cuenta nueva</h2>
+    <div class="cuadroRegistro">
+    <div class="datosCuentaNueva">
+        <h2>DATOS PERSONALES</h2>
+
+    <form>
+        <div>
+            <p>Nombre</p>
+            <input type="text" placeholder="Escriba aqui" id="nombre">
+        </div>
+        <div>
+            <p>Apellidos</p>
+            <input type="text" placeholder="Escriba aqui" id="apellido">
+        </div>
+        <div>
+            <p>Fecha de nacimiento</p>
+            <input type="date" id="fechaNacimiento"> 
+        </div>
+        <button class="registrarse" type="button" onclick="insertarDatosUsuario()">REGISTRARSE</button>
+
+    </div>
+    <div class="datosInicioSesion">
+        <h2>INICIO DE SESION</h2>
+        <P>Correo electronico</P>
+        <input type="text" placeholder="Escriba aqui" id="email">
+        <P>Contraseña (debe contener de 9 a 12 caracteres, mayúsculas, minúsculas, números y caracteres especiales)</P>
+        <input type="password" placeholder="Escriba aqui" id="password">
+        <P>Confirmar contraseña</P>
+        <input type="password" placeholder="Escriba aqui" id="passwordConfirmacion">
+    </form>
+        
+    <script>
+        var nombre = document.getElementById("nombre")
+        var apellido = document.getElementById("apellido")
+        var fechaNacimiento = document.getElementById("fechaNacimiento")
+        var email = document.getElementById("email")
+        var password = document.getElementById("password")
+        var passwordConf = document.getElementById("passwordConfirmacion")
+        var regexNombre = /^[a-zA-Z ]{2,30}$/
+        var validRegexEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+        var validRegexPassword = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[-._!"`'#%&,:;<>=@{}~\$\(\)\*\+\/\\\?\[\]\^\|]).{9,12}$/
+
+        function insertarDatosUsuario(){
+            var datosUsuario = {
+            nombre: document.getElementById("nombre").value,
+            apellido: document.getElementById("apellido").value,
+            fechaDeNacimiento: document.getElementById("fechaNacimiento").value,
+            correoElectronico: document.getElementById("email").value,
+            contrasenna: document.getElementById("password").value,
+            puntaje: 0
+            }
+
+            if (nombre.value == ""){
+                alert("Error: Rellene el espacio de nombre.")
+
+                return false
+                
+            }
+
+            if (!nombre.value.match(regexNombre)){
+                alert("Error: Ingrese un nombre válido.")
+
+                return false
+            }
+            //------------------//
+
+            if (apellido.value == ""){
+                alert("Error: Rellene el espacio de apellido.")
+
+                return false
+                
+            }
+
+            if (!apellido.value.match(regexNombre)){
+                alert("Error: Ingrese un apellido válido.")
+
+                return false
+            }
+
+            //------------------//
+
+            if (email.value == ""){
+                alert("Error: Rellene el espacio de correo")
+
+                return false
+            }
+
+            if(!email.value.match(validRegexEmail)){
+                alert("Error: Ingrese un correo válido")
+
+                return false 
+            }
+            
+            //------------------//
+
+            if (password.value == ""){
+                alert("Error: Rellene el espacio de contraseña.")
+
+                return false
+            }
+
+            if (!password.value.match(validRegexPassword)){
+                alert("Error: La contraseña debe llevar al menos un número, un caracter en mayúscula, un caracter en minúscula, y un caracter especial.")
+
+                return false
+            }
+
+            if (passwordConf.value == ""){
+                alert("Error: Rellene el espacio de confirmar contraseña.")
+
+                return false
+            }
+
+            if (!passwordConf.value.match(password.value)){
+                alert("Error: Las contraseñas no coinciden.")
+
+                return false
+            }
+
+        console.log(datosUsuario)
+
+        fetch("http://localhost:8080/datosUsuario/insertarDatosUsuario", {
+        method: 'POST',
+        body: JSON.stringify(datosUsuario),
+        headers: {'Content-Type': 'application/json'}
+        }).then(
+                function(response){
+                return response.json();
+                }
+            ). then(
+                alert("Usuario registrado satisfactoriamente. Por favor inicie sesion.")
+            ). then(
+                window.location.href = "inicioSecion.html"
+            )
+    }
+    function buscar(){
+    
+        var search = { busqueda : document.getElementById("resultadoBusqueda").value}
+        console.log(search)
+
+
+        document.getElementById("content").innerHTML='<object type="type/html" data="home.html" ></object>';
+    }
+    </script>
+
+    </div>
+    </div>
+</body>
+</html>

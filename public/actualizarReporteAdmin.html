@@ -1,0 +1,144 @@
+
+<html>
+
+  <head>
+    <link rel="stylesheet" href="editPerfilLibro.css">
+    <link rel="stylesheet" href="headerAdmin.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap" rel="stylesheet">
+  </head>
+
+
+<body onload="cargarTabla()">
+    
+
+  <div class="container">
+
+    <!--logo y nombre de empresa (izquirda arriba)-->
+    <div class="busqueda">
+
+      <img class="img_logo" src="img/logoNeo.png">
+
+  </div>
+  <div class="logo titulo">
+
+      <h1>El bazar de <span> las Sorpresas</span> </h1>
+  </div>
+
+  <div class="menuLinksAdmin" >
+
+
+    <a href="edicionPerfilLibro.html">Editor de catálogo de libros </a><br>
+    <a href="edicionPerfilAutor.html">Editor de catálogo de Autores</a><br>
+    <a href="sociosComerciales.html">Editor de catálogo de socios comerciales</a><br>
+    <a href="puntosDeEntrega.html">Editor de catálogo de puntos de entrega</a><br>          
+    <a href="editarUsuario.html">Editor de Usuarios</a><br>  
+    <a href="editReporteAdmin.html">Reportes del Mes y Puntos</a><br>
+    <a href="inicioSecion.html">Cerrar Sesión</a><br> 
+
+    </div>
+
+    </div>
+    <div class="linea_encabezado"></div>
+
+    <!--END HEADER-->
+
+    <div class="subEncabezado">
+    
+      <h1>Actualizar Autor</h1>
+      
+    </div>
+    <form class="formularioIncertar"> 
+
+        <input type="text" id="mesCompra" placeholder="mes de compra" />
+        <input type="text" id="precio" placeholder="precio" />
+        <input type="text" id="fechaCompra" placeholder="fecha de compra" />
+        <input type="text" id="nombreLibro" placeholder="nombre del libro" />
+        <input type="text" id="puntosGanados" placeholder="Puntos ganados" />
+        <input type="text" id="puntosUsados" placeholder="Puntos usados" />
+
+        <button type="button"  onclick="actualizarAutor()">Actualizar Libro</button>
+        </form>
+    
+    <script>
+
+
+function actualizarAutor(){
+    var datos = {
+            mesCompra: document.getElementById("mesCompra").value,
+            nombreLibro: document.getElementById("nombreLibro").value,
+            precio: document.getElementById("precio").value,
+            fechaCompra: document.getElementById("fechaCompra").value,
+            puntosGanados: document.getElementById("puntosGanados").value,
+            puntosUsados: document.getElementById("puntosUsados").value
+
+            
+          
+            }
+
+            console.log(datos)
+            
+
+            fetch("http://localhost:8080/reporteAdmin/actualizar", {
+            method: 'POST',
+            body: JSON.stringify(datos),
+            headers: {'Content-Type': 'application/json'}
+            }).then(
+                function(response){
+                return response.json();
+                }
+            ).then(
+
+                function(json){
+
+                    alert("El reporte ha sido actualizado")
+                    
+            }
+        )
+     }
+
+
+
+
+function cargarTabla() {
+        var direccion = window.location.search;
+        var variables = new URLSearchParams(direccion);
+        var id = variables.get("id");
+
+        var datos = {
+          idUsuario: id
+        }
+        
+        fetch("http://localhost:8080/reporteAdmin/buscar", {
+          method: 'POST',
+          body: JSON.stringify(datos),
+          headers: {'Content-Type': 'application/json'}
+        })
+          .then(
+            function(response){
+              return response.json();
+            }
+          )
+          .then (
+            function(json) {
+
+              document.getElementById("mesCompra").value = json.mesCompra;
+              document.getElementById("precio").value = json.precio;
+              document.getElementById("fechaCompra").value = json.fechaCompra;
+              document.getElementById("nombreLibro").value = json.nombreLibro;
+              document.getElementById("puntosGanados").value = json.puntosGanados;
+              document.getElementById("puntosUsados").value = json.puntosUsados;
+
+            }
+          ) 
+      }
+    </script>
+
+
+</body>
+
+  
+
+
+</html>
+
